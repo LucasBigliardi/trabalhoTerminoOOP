@@ -2,12 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package projeto_conclusao_oop;
+package projetoConclusaoOOP;
 
-/**
- *
- * @author Lucas
- */
+
 public class bibliotecaGui extends javax.swing.JFrame {
 
     /**

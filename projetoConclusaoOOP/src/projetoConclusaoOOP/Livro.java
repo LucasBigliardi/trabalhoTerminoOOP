@@ -8,10 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-/**
- *
- * @author Lucas
- */
+
+
 public class Livro {
     
     private int id;

@@ -7,23 +7,21 @@ package projetoConclusaoOOP;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.*;
 
-/**
- *
- * @author Lucas
- */
+
 public class Main {
     
     public static void main(String[] args) {
         
+        // recuperando a conexao ao banco de dados
         Connection conn = ConnMYSQL.getConnection();
         
-        Autor autor = new Autor("Gustavo Luiz Gregorio", "Nada", "2004-07-27", "1001-01-01");
-        Livro livro = new Livro("Teste livro", "Gustavo Luiz Gregorio", "Drama", 220, "2020-05-06", 10);
-        
-        Livro liv = Services.read(conn, "livros", "titulo", "Teste livro");
-        
-        System.out.println(liv.getTitulo());
-
+        // criando a janela do jframe usando a biblioteGui
+        JFrame frame = new JFrame("Biblioteca GUI");
+        frame.setContentPane(new bibliotecaGui().getRootPane());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }    
 }

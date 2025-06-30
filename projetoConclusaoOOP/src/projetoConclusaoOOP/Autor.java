@@ -9,10 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
-/**
- *
- * @author hukak
- */
+
 public class Autor {
     int id;
     String nome;

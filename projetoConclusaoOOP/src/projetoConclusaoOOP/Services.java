@@ -14,12 +14,10 @@ import java.sql.Date;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-/**
- *
- * @author gustavo
- */
 
 // classe utilitaria para lidar com CRUD de tipos diferentes de objetos
+// <T> serve para objetos genericos (Autor e Livro)
+// <K> serve para tipos genericos (String e int), Date e LocalDate estao sendo tratados de String
 public class Services<T> {
     
     // regex para checar se uma string e uma data
@@ -27,7 +25,7 @@ public class Services<T> {
     
     
     /* -----------------------------------------------------------------------------------------------
-    METODOS CRUD
+    METODOS C R U D
     */
     
     // operacao de CREATE
@@ -37,6 +35,7 @@ public class Services<T> {
         PreparedStatement stmt = null;
         
         try {
+            // insercao de um novo autor
             if(object instanceof Autor) {
                 query = "INSERT INTO autores(nome, livros, data_nascimento, data_falecimento) VALUES (?, ?, ?, ?)";
                 stmt = conn.prepareStatement(query);
@@ -48,6 +47,7 @@ public class Services<T> {
                 stmt.execute();
             
             } else if(object instanceof Livro) {
+                // insercao de um novo livro
                 query = "INSERT INTO livros(titulo, autor, generos, qtd_paginas, ano_lancamento, estoque) VALUES (?, ?, ?, ?, ?, ?)";
                 stmt = conn.prepareStatement(query);
 
@@ -62,16 +62,18 @@ public class Services<T> {
 
             }
             
+            // fechando o statement
             if(stmt != null) {
                 stmt.close();
             }
             
         } catch(SQLException ex) {
+            System.out.println("Erro ao inserir dados");
             throw new Error(ex.getMessage());
         }
     }
     
-    // operacao READ (retorno de um objeto em base do banco de dados)
+    // operacao READ (retorna um objeto em base do banco de dados)
     public static <T> T read(Connection conn, String table, String param, String value) {
         T object = null;
         String query = "SELECT * FROM "+ table +" WHERE "+ param +" = ?";
@@ -103,51 +105,66 @@ public class Services<T> {
                     object = (T) new Livro(titulo, autor, generos, qtdPaginas, anoLancamento, estoque);
                     
                 } else {
-                    throw new Error("Erro ao criar objeto");
+                    throw new Error("Erro ao criar objeto (bloco if else)");
                 }
             }
             
+            // fechando resultado e statement
             res.close();
             stmt.close();
             
-            return (T) object;            
+            // retornando o objeto para a posterior leitura encapsulada
+            return (T) object;
             
         } catch(SQLException ex) {
+            System.out.println("Erro ao criar objeto (catch)");
             throw new Error(ex.getMessage());            
         }
     }
     
     // operacao de UPDATE
     public static <T, K> void update(Connection conn, T object, String param, K value) {
+        // lanca um erro se tentar usar id, pois e pk e auto-incremento, entao nao deve ser modificado
         if(param.equals("id")) {
             throw new Error("Nao e possivel fazer alteracoes em id");
         }
         String query = null;
         PreparedStatement stmt = null;
         
+        // autalizara o objeto, via parametro, informado em base de uma busca do id do objeto
         try {
+            // atualizando autor
             if(object instanceof Autor) {
                query = "UPDATE autores SET "+ param +" = ? WHERE id = ?";
                stmt = conn.prepareStatement(query);
+               
+               // checa se o valor inserido e uma String
                if(value instanceof String) {
                    String strValue = String.valueOf(value);
 
+                   // checa se o valor inserido bate com o regex de data, para usar Date
                    if(DATE_PATTERN.matcher(strValue).matches()) {
                        stmt.setDate(1, Date.valueOf(strValue));
                    } else {
                        stmt.setString(1, strValue);
                    }
                } else {
+                   // se nao e String, sera int, pois sao os unicos tipos no banco de dados
                    stmt.setInt(1, Integer.parseInt(value.toString()));
                }
                stmt.setInt(2, Autor.getId(((Autor) object).getNome()));
                
             } else if(object instanceof Livro) {
+               // atualizando livro
+               
                query = "UPDATE livros SET "+ param +" = ? WHERE id = ?";
                stmt = conn.prepareStatement(query);
+               
+               // checa se o valor e String
                if(value instanceof String) {
                    String strValue = String.valueOf(value);
 
+                   // checa se o valor e data em base do regex
                    if(DATE_PATTERN.matcher(strValue).matches()) {
                        stmt.setDate(1, Date.valueOf(strValue));
                    } else {
@@ -159,7 +176,10 @@ public class Services<T> {
                stmt.setInt(2, Livro.getId(((Livro) object).getTitulo()));
 
             }
+            
+            // executando a atualizacao e depois limpando o statement
             stmt.execute();
+            stmt.close();
             
         } catch(SQLException ex) {
             System.out.printf("Erro ao fazer update do parametro '%s' e valor '%s'", param, value);
@@ -172,6 +192,7 @@ public class Services<T> {
         String query = null;
         PreparedStatement stmt = null;
         
+        // deletando o autor ou livro em base do id do objeto informado
         try {
             if(object instanceof Autor) {
                 query = "DELETE FROM autores WHERE id = ?";
@@ -187,6 +208,7 @@ public class Services<T> {
             }
             
         } catch(SQLException ex) {
+            System.out.println("Erro na operacao delete");
             throw new Error(ex.getMessage());
         }
     }
