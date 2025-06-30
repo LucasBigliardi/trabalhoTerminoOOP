@@ -4,13 +4,18 @@
  */
 package projetoConclusaoOOP;
 
-
-public class bibliotecaGui extends javax.swing.JFrame {
+/**
+ *
+ * @author hukak
+ */
+public class livroGUI extends javax.swing.JFrame {
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(livroGUI.class.getName());
 
     /**
-     * Creates new form bibliotecaGui
+     * Creates new form livroGUI
      */
-    public bibliotecaGui() {
+    public livroGUI() {
         initComponents();
     }
 
@@ -55,23 +60,13 @@ public class bibliotecaGui extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(bibliotecaGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(bibliotecaGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(bibliotecaGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(bibliotecaGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new bibliotecaGui().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new livroGUI().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
