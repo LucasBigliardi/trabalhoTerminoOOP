@@ -19,7 +19,7 @@ public class Main {
         
         // criando a janela do jframe usando a biblioteGui
         JFrame frame = new JFrame("Biblioteca GUI");
-        frame.setContentPane(new bibliotecaGui().getRootPane());
+        frame.setContentPane(new GBiblioteca().getRootPane());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

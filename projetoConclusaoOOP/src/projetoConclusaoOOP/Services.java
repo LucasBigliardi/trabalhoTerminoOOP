@@ -37,13 +37,12 @@ public class Services<T> {
         try {
             // insercao de um novo autor
             if(object instanceof Autor) {
-                query = "INSERT INTO autores(nome, livros, data_nascimento, data_falecimento) VALUES (?, ?, ?, ?)";
+                query = "INSERT INTO autores(nome, livros, data_nascimento) VALUES (?, ?, ?)";
                 stmt = conn.prepareStatement(query);
 
                 stmt.setString(1, ((Autor) object).getNome());
                 stmt.setString(2, ((Autor) object).getLivros());
                 stmt.setDate(3, Date.valueOf(((Autor) object).getDataNascimento()));
-                stmt.setDate(4, Date.valueOf(((Autor) object).getDataFalecimento()));
                 stmt.execute();
             
             } else if(object instanceof Livro) {
@@ -90,9 +89,8 @@ public class Services<T> {
                     String nome = res.getString("nome");
                     String livros = res.getString("livros");
                     LocalDate dataNascimento = res.getDate("data_nascimento").toLocalDate();
-                    LocalDate dataFalecimento = res.getDate("data_falecimento").toLocalDate();
 
-                    object = (T) new Autor(nome, livros, dataNascimento.toString(), dataFalecimento.toString());
+                    object = (T) new Autor(nome, livros, dataNascimento.toString());
                     
                 } else if(table.equals("livros")) {
                     String titulo = res.getString("titulo");

@@ -15,13 +15,17 @@ public class Autor {
     String nome;
     String livros;
     LocalDate dataNascimento;
-    LocalDate dataFalecimento;
     
-    public Autor(String nome, String livros, String dataNascimento, String dataFalecimento) {
+    public Autor() {
+        this.nome = "default";
+        this.livros = "default";
+        this.dataNascimento = LocalDate.parse("1200-01-01");
+    }
+    
+    public Autor(String nome, String livros, String dataNascimento) {
         this.nome = nome;
         this.livros = livros;
         this.dataNascimento = LocalDate.parse(dataNascimento);
-        this.dataFalecimento = LocalDate.parse(dataFalecimento);
     }
     
     /* -----------------------------------------------------------------------------------------------
@@ -36,7 +40,7 @@ public class Autor {
     }
     
     public void setLivros(String livros) {
-        this.livros = nome;
+        this.livros = livros;
     }
     public String getLivros() {
         return this.livros;
@@ -47,13 +51,6 @@ public class Autor {
     }
     public LocalDate getDataNascimento() {
         return this.dataNascimento;
-    }
-    
-    public void setDataFalecimento(LocalDate dataFalecimento) {
-        this.dataFalecimento = dataFalecimento;
-    }
-    public LocalDate getDataFalecimento() {
-        return this.dataFalecimento;
     }
     
     public static int getId(String autor) {
